@@ -1,0 +1,9 @@
+langchain
+pypdf
+langchain-community
+numpy
+pandas
+langchain-text-splitters
+langchain-huggingface
+sentence-transformers
+streamlit-pdf-viewer
