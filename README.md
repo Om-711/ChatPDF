@@ -26,5 +26,5 @@ It uses Retrieval-Augmented Generation (RAG) to provide accurate answers based o
 ## Project Structure
 - app.py # Main Streamlit application entrypoint
 - function_chatbot_pdf.py # Core logic for PDF processing, embeddings, and QA
-─ requirements.txt # Python dependencies
-─ README.md 
+- requirements.txt # Python dependencies
+- README.md 
