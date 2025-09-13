@@ -27,4 +27,10 @@ It uses Retrieval-Augmented Generation (RAG) to provide accurate answers based o
 - app.py # Main Streamlit application entrypoint
 - function_chatbot_pdf.py # Core logic for PDF processing, embeddings, and QA
 - requirements.txt # Python dependencies
-- README.md 
+- README.md
+
+## Site Look
+<img width="1903" height="720" alt="image" src="https://github.com/user-attachments/assets/bb4b7b80-16c8-4b07-992c-bee434f16b95" />
+<img width="1913" height="865" alt="image" src="https://github.com/user-attachments/assets/08f7a243-95cc-4010-998a-fd53a22495ad" />
+
+
