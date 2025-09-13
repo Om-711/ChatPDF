@@ -12,6 +12,9 @@ if "page" not in st.session_state:
 if "uploaded_file" not in st.session_state:
     st.session_state.uploaded_file = None
 
+if "chat_history" not in st.session_state:#
+    st.session_state.chat_history = []
+
 def go_to_chat():
     st.session_state.page = "chat"
 
@@ -35,7 +38,7 @@ if st.session_state.page == "home":
             st.rerun()
 
 elif st.session_state.page == "chat":
-    st.title("Chat with PDF Bot")
+    # st.title("Chat with PDF Bot")
 
     if st.session_state.uploaded_file is None:
         st.warning("Please upload a PDF first.")
@@ -44,7 +47,7 @@ elif st.session_state.page == "chat":
     
     else:
 
-        col1, col2 = st.columns([2,3])
+        col1, col2 = st.columns([1, 1])
 
         file_path = st.session_state.uploaded_file
 
@@ -52,7 +55,7 @@ elif st.session_state.page == "chat":
 
             pdf_viewer(
                 st.session_state.uploaded_file,
-                width=500,
+                width=700,
                 height=800,
                 zoom_level=1.0,                   
                 viewer_align="center",             
@@ -60,20 +63,41 @@ elif st.session_state.page == "chat":
             )
 
         with col2:
-            user_input = st.text_input("Ask me something about your PDF:")
+            st.subheader("Ask Questions about your PDF")
 
-            if st.button("Ask"):    
-                if user_input:
-                    st.write(f" User: '{user_input}'")
-                    with st.spinner("Thinking...."):
+            for msg in st.session_state.chat_history:
+                with st.chat_message(msg["role"]):
+                    st.markdown(msg["content"])
+
+
+
+            question = st.chat_input("Type your question here...")
+
+        
+            if question:
+                if "doc_data" not in st.session_state:
+                    with st.spinner("Thinking..."):
                         embeddings, chunks, doc = loader_fuc(st.session_state.uploaded_file)
+                        st.session_state.doc_data = (embeddings, chunks, doc)
 
-                        response = retriever_fuc(embeddings, chunks, doc, user_input)
-                        
-                        st.write(f"AI: {response}")
+                embeddings, chunks, doc = st.session_state.doc_data
+
+                st.session_state.chat_history.append({"role": "user", "content": question})
+
+                
+                with st.spinner("Thinking..."):
+                    response = retriever_fuc(embeddings, chunks, doc, question)
+                    # with st.chat_message("assistant"):
+                    #     st.markdown(response)
+                
+                st.session_state.chat_history.append({"role": "assistant", "content": response})
+                st.rerun()
+            
+            if st.button("New Chat"):
+                st.session_state.chat_history = []
+                st.rerun()
+                    
                   
     # if st.button("Back to Home"):
     #     st.session_state.page = "home"
     #     st.rerun()
-
-
